@@ -1,0 +1,79 @@
+@import url(http://fonts.googleapis.com/css?family=Cabin);
+@import "fontello-embedded";
+
+body{
+  background: #ccc;
+}
+
+.video_player{
+  background-color: #000;
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  position: relative;
+  video{
+    max-width: 100%;
+    height: inherit;
+  }
+  .video_controls{
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .75);
+    color: #fff;
+    .volume{
+      height: 30px;
+      line-height: 34px;
+      font-size: 1em;
+      float: left;
+      color: #fff;
+      padding: 0 10px;
+      cursor: ns-resize;
+    }
+    .time{
+      height: 30px;
+      float: left;
+      font-size: .7em;
+      font-family: 'Cabin', sans-serif;
+      padding: 0 10px;
+      line-height: 30px;
+      .total{
+        color: #999;
+      }
+    }
+    .progress_bar{
+      height: 5px;
+      position: absolute;
+      left: 0; right: 0;
+      bottom: 30px;
+      background-color: #333;
+      .playback_percent{
+        top: 0; bottom: 0;
+        position: absolute;
+        width: 0%;
+        background-color: #cc00ff;
+        z-index: 50;
+      }
+      .buffer_percent{
+        top: 0; bottom: 0;
+        position: absolute;
+        width: 50%;
+        background-color: #666;
+        z-index: 40;
+      }
+    }
+    .toggle_playback{
+      float: left;
+      color: #fff;
+      font-size: 1.3em;
+      height: 30px;
+      border: none;
+      background: transparent;
+      padding: 0 10px;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+}
