@@ -21,6 +21,17 @@ var videoStage = document.getElementById('video_stage')
 React.render(<VideoPlayer url="http://videos.thisisepic.com/2b9c1bf3-e19b-4be5-9d36-246c5d3607d8/high.mp4" />, videoStage);
 ```
 
+## Modifying
+
+If you'd like to modify the css or jsx, you'll need to recompile the project using sass and jsx. Run these commands from the root directory:
+```
+sass --watch src/sass:dist/css
+```
+and or 
+```
+jsx --watch src/ dist/
+```
+
 ## Todo
 
 - Volume Slider
