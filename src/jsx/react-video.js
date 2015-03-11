@@ -129,7 +129,7 @@ var Video = React.createClass({
   },
   render: function(){
     return (
-      <video src="http://videos.thisisepic.com/2b9c1bf3-e19b-4be5-9d36-246c5d3607d8/high.mp4"></video>
+      <video src={this.props.url}></video>
     );
   }
 });
@@ -188,6 +188,7 @@ var VideoPlayer = React.createClass({
     return (
       <div className="video_player">
         <Video ref="video"
+               url={this.props.url}
                currentTimeChanged={this.updateProgressBar}
                durationChanged={this.updateDuration}
                updatePlaybackStatus={this.videoEnded}
@@ -204,4 +205,4 @@ var VideoPlayer = React.createClass({
 });
 
 var videoStage = document.getElementById('video_stage')
-React.render(<VideoPlayer />, videoStage);
+React.render(<VideoPlayer url="http://videos.thisisepic.com/2b9c1bf3-e19b-4be5-9d36-246c5d3607d8/high.mp4" />, videoStage);
