@@ -2,6 +2,8 @@
 
 An HTML5 Video Player ReactJS Component
 
+![ReactJS Video](screenshot.png)
+
 Originally created for [thisisepic.com](http://thisisepic.com) but is able to be used in any web project commercial or open source.
 
 Feel free to open pull requests with added features, or you can open a ticket if you'd like to see a feature added.
