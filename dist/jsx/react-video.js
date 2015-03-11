@@ -27,7 +27,6 @@ var VideoTimeIndicator = React.createClass({displayName: "VideoTimeIndicator",
 
 var VideoVolumeButton = React.createClass({displayName: "VideoVolumeButton",
   toggleVolume: function(){
-    console.log(this.props.muted);
     this.props.toggleVolume(!this.props.muted);
   },
   changeVolume: function(e){
@@ -182,11 +181,7 @@ var VideoPlayer = React.createClass({displayName: "VideoPlayer",
     this.setState({
       muted: !this.state.muted
     }, function(){
-      if (this.state.muted){
-        this.refs.video.getDOMNode().muted = true
-      }else{
-        this.refs.video.getDOMNode().muted = false
-      }
+      this.refs.video.getDOMNode().muted = this.state.muted
     });
   },
   render: function(){
