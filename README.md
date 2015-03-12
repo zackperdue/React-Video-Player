@@ -27,7 +27,7 @@ If you'd like to modify the css or jsx, you'll need to recompile the project usi
 ```
 sass --watch src/sass:dist/css
 ```
-and or 
+and or
 ```
 jsx --watch src/ dist/
 ```
@@ -35,9 +35,14 @@ jsx --watch src/ dist/
 ## Todo
 
 - Volume Slider
-- Full Screen
+- Full Screen (partial support)
 - Responsive
 - Choose resolution
 - Playlists
 - Seeking, FF, RW
 - Change playback speed
+
+## Changelog
+- Thu Mar 12
+ - Full screen support for webkit, rest coming soon
+ - video remains centered and keeps aspect ratio

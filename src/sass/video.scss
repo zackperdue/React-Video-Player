@@ -5,12 +5,18 @@ body{
   background: #ccc;
 }
 
+body :-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+
 .video_player{
   background-color: #000;
   width: 640px;
   height: 360px;
   overflow: hidden;
   position: relative;
+  text-align: center;
   video{
     max-width: 100%;
     height: inherit;
@@ -23,6 +29,21 @@ body{
     right: 0;
     background: rgba(0, 0, 0, .75);
     color: #fff;
+    .rhs{
+      float: right;
+      display: inline;
+      height: 30px;
+    }
+    .toggle_fullscreen_button{
+      color: #fff;
+      font-size: 0.9em;
+      height: 30px;
+      border: none;
+      background: transparent;
+      padding: 0 10px;
+      cursor: pointer;
+      outline: none;
+    }
     .volume{
       height: 30px;
       line-height: 34px;

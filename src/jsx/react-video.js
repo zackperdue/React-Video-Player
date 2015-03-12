@@ -13,6 +13,19 @@ Number.prototype.toVideoDuration = function(){
   return group.join(":");
 }
 
+var VideoFullScreenToggleButton = React.createClass({
+  requestFullscreen: function(){
+    this.props.onToggleFullscreen();
+  },
+  render: function(){
+    return (
+      <button className="toggle_fullscreen_button" onClick={this.requestFullscreen}>
+        <i className="icon-fullscreen"></i>
+      </button>
+    );
+  }
+});
+
 var VideoTimeIndicator = React.createClass({
   render: function(){
     var current = (this.props.currentTime).toVideoDuration();
@@ -143,7 +156,8 @@ var VideoPlayer = React.createClass({
       duration: 0,
       currentTime: 0,
       muted: false,
-      volumeLevel: 0.5
+      volumeLevel: 0.5,
+      fullScreen: false,
     };
   },
   videoEnded: function(){
@@ -184,6 +198,17 @@ var VideoPlayer = React.createClass({
       this.refs.video.getDOMNode().muted = this.state.muted
     });
   },
+  toggleFullscreen: function(){
+    this.setState({
+      fullScreen: !this.state.fullScreen
+    }, function(){
+      if (this.state.fullScreen){
+        this.getDOMNode().webkitRequestFullScreen();
+      }else{
+        document.webkitExitFullscreen();
+      }
+    });
+  },
   render: function(){
     return (
       <div className="video_player">
@@ -198,6 +223,9 @@ var VideoPlayer = React.createClass({
           <VideoPlaybackToggleButton handleTogglePlayback={this.togglePlayback} playing={this.state.playing} />
           <VideoVolumeButton muted={this.state.muted} volumeLevel={this.state.volumeLevel} toggleVolume={this.toggleMute} />
           <VideoTimeIndicator duration={this.state.duration} currentTime={this.state.currentTime} />
+          <div className="rhs">
+            <VideoFullScreenToggleButton onToggleFullscreen={this.toggleFullscreen} />
+          </div>
         </div>
       </div>
     );

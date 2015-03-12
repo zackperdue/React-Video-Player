@@ -13,6 +13,19 @@ Number.prototype.toVideoDuration = function(){
   return group.join(":");
 }
 
+var VideoFullScreenToggleButton = React.createClass({displayName: "VideoFullScreenToggleButton",
+  requestFullscreen: function(){
+    this.props.onToggleFullscreen();
+  },
+  render: function(){
+    return (
+      React.createElement("button", {className: "toggle_fullscreen_button", onClick: this.requestFullscreen}, 
+        React.createElement("i", {className: "icon-fullscreen"})
+      )
+    );
+  }
+});
+
 var VideoTimeIndicator = React.createClass({displayName: "VideoTimeIndicator",
   render: function(){
     var current = (this.props.currentTime).toVideoDuration();
@@ -143,7 +156,8 @@ var VideoPlayer = React.createClass({displayName: "VideoPlayer",
       duration: 0,
       currentTime: 0,
       muted: false,
-      volumeLevel: 0.5
+      volumeLevel: 0.5,
+      fullScreen: false,
     };
   },
   videoEnded: function(){
@@ -184,6 +198,17 @@ var VideoPlayer = React.createClass({displayName: "VideoPlayer",
       this.refs.video.getDOMNode().muted = this.state.muted
     });
   },
+  toggleFullscreen: function(){
+    this.setState({
+      fullScreen: !this.state.fullScreen
+    }, function(){
+      if (this.state.fullScreen){
+        this.getDOMNode().webkitRequestFullScreen();
+      }else{
+        document.webkitExitFullscreen();
+      }
+    });
+  },
   render: function(){
     return (
       React.createElement("div", {className: "video_player"}, 
@@ -197,7 +222,10 @@ var VideoPlayer = React.createClass({displayName: "VideoPlayer",
           React.createElement(VideoProgressBar, {percentPlayed: this.state.percentPlayed, percentBuffered: this.state.percentBuffered}), 
           React.createElement(VideoPlaybackToggleButton, {handleTogglePlayback: this.togglePlayback, playing: this.state.playing}), 
           React.createElement(VideoVolumeButton, {muted: this.state.muted, volumeLevel: this.state.volumeLevel, toggleVolume: this.toggleMute}), 
-          React.createElement(VideoTimeIndicator, {duration: this.state.duration, currentTime: this.state.currentTime})
+          React.createElement(VideoTimeIndicator, {duration: this.state.duration, currentTime: this.state.currentTime}), 
+          React.createElement("div", {className: "rhs"}, 
+            React.createElement(VideoFullScreenToggleButton, {onToggleFullscreen: this.toggleFullscreen})
+          )
         )
       )
     );
