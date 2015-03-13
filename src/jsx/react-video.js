@@ -43,23 +43,19 @@ var VideoVolumeButton = React.createClass({
     this.props.toggleVolume(!this.props.muted);
   },
   changeVolume: function(e){
-
+    this.props.changeVolume(e.target.value);
   },
   render: function(){
-    var volumeLevel, level;
-    volumeLevel = this.props.volumeLevel;
-    switch(volumeLevel){
-      case volumeLevel > 0:
+    var volumeLevel = this.props.volumeLevel, level;
+      if (volumeLevel <= 0){
+        level = 'muted';
+      }else if (volumeLevel > 0 && volumeLevel <= 0.33){
         level = 'low';
-      case volumeLevel > 0.33:
+      }else if (volumeLevel > 0.33 && volumeLevel <= 0.66){
         level = 'medium';
-      case volumeLevel > 0.66:
-        level = 'high'
-      default:
-        level = 'medium'
-    }
-
-    level = (this.props.muted == true ? 'muted' : level);
+      }else{
+        level = 'high';
+      }
 
     var sound_levels = {
       'muted': 'icon-volume-off',
@@ -69,8 +65,11 @@ var VideoVolumeButton = React.createClass({
     }
 
     return (
-      <div className="volume" onClick={this.toggleVolume}>
-        <i className={sound_levels[level]}></i>
+      <div className="volume">
+        <button onClick={this.toggleVolume}>
+          <i className={sound_levels[level]}></i>
+        </button>
+        <input className="volume_slider" type="range" min="0" max="100" onInput={this.changeVolume} />
       </div>
     );
   }
@@ -142,7 +141,7 @@ var Video = React.createClass({
   },
   render: function(){
     return (
-      <video src={this.props.url}></video>
+      <video src={this.props.url} poster={this.props.poster}></video>
     );
   }
 });
@@ -157,7 +156,7 @@ var VideoPlayer = React.createClass({
       currentTime: 0,
       muted: false,
       volumeLevel: 0.5,
-      fullScreen: false,
+      fullScreen: false
     };
   },
   videoEnded: function(){
@@ -209,11 +208,18 @@ var VideoPlayer = React.createClass({
       }
     });
   },
+  handleVolumeChange: function(value){
+    this.setState({volumeLevel: value / 100}, function(){
+      this.refs.video.getDOMNode().volume = this.state.volumeLevel;
+    });
+  },
   render: function(){
     return (
       <div className="video_player">
         <Video ref="video"
-               url={this.props.url}
+               url={this.props.options.url}
+               volume={this.state.volumeLevel}
+               poster={this.props.options.poster}
                currentTimeChanged={this.updateProgressBar}
                durationChanged={this.updateDuration}
                updatePlaybackStatus={this.videoEnded}
@@ -221,7 +227,7 @@ var VideoPlayer = React.createClass({
         <div className="video_controls" ref="videoControls">
           <VideoProgressBar percentPlayed={this.state.percentPlayed} percentBuffered={this.state.percentBuffered} />
           <VideoPlaybackToggleButton handleTogglePlayback={this.togglePlayback} playing={this.state.playing} />
-          <VideoVolumeButton muted={this.state.muted} volumeLevel={this.state.volumeLevel} toggleVolume={this.toggleMute} />
+          <VideoVolumeButton muted={this.state.muted} volumeLevel={this.state.volumeLevel} toggleVolume={this.toggleMute} changeVolume={this.handleVolumeChange} />
           <VideoTimeIndicator duration={this.state.duration} currentTime={this.state.currentTime} />
           <div className="rhs">
             <VideoFullScreenToggleButton onToggleFullscreen={this.toggleFullscreen} />
@@ -233,4 +239,8 @@ var VideoPlayer = React.createClass({
 });
 
 var videoStage = document.getElementById('video_stage')
-React.render(<VideoPlayer url="http://videos.thisisepic.com/2b9c1bf3-e19b-4be5-9d36-246c5d3607d8/high.mp4" />, videoStage);
+var videoOptions = {
+  url: 'http://videos.thisisepic.com/2b9c1bf3-e19b-4be5-9d36-246c5d3607d8/high.mp4',
+  poster: 'http://thumbnails.thisisepic.com/b1ce00de-e687-4c1b-97ac-afa05a287327/large/frame_0005.png'
+};
+React.render(<VideoPlayer options={videoOptions} />, videoStage);
