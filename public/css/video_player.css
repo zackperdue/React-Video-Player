@@ -40,7 +40,6 @@
     .video_player .progress_bar .buffer {
       background-color: #666;
       height: inherit;
-      width: 75%;
       border-radius: inherit;
       position: absolute;
       top: 0;
@@ -48,11 +47,12 @@
       z-index: 50; }
     .video_player .progress_bar .played {
       height: inherit;
-      width: 50%;
       background-color: #cc00ff;
       border-radius: inherit;
       position: absolute;
-      z-index: 100; }
+      z-index: 100;
+      min-width: 10px;
+      max-width: 100%; }
       .video_player .progress_bar .played .seeker {
         border: none;
         background-color: #fff;

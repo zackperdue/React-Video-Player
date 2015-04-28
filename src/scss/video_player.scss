@@ -46,7 +46,6 @@
     .buffer{
       background-color: #666;
       height: inherit;
-      width: 75%;
       border-radius: inherit;
       position: absolute;
       top: 0; left: 0;
@@ -54,11 +53,12 @@
     }
     .played{
       height: inherit;
-      width: 50%;
       background-color: #cc00ff;
       border-radius: inherit;
       position: absolute;
       z-index: 100;
+      min-width: 10px;
+      max-width: 100%;
       .seeker{
         border: none;
         background-color: #fff;
