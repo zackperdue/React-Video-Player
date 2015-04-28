@@ -30,12 +30,39 @@
   .video_player .progress_bar {
     height: 10px;
     background: #333;
-    width: 100%;
-    border-radius: 5px; }
+    width: 50%;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 10px 6px;
+    position: relative;
+    z-index: 1;
+    vertical-align: middle; }
+    .video_player .progress_bar .buffer {
+      background-color: #666;
+      height: inherit;
+      width: 75%;
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 50; }
     .video_player .progress_bar .played {
       height: inherit;
       width: 50%;
       background-color: #cc00ff;
-      border-radius: inherit; }
+      border-radius: inherit;
+      position: absolute;
+      z-index: 100; }
+      .video_player .progress_bar .played .seeker {
+        border: none;
+        background-color: #fff;
+        width: 10px;
+        height: inherit;
+        border-radius: inherit;
+        padding: 0;
+        margin: 0;
+        min-width: 10px;
+        position: absolute;
+        right: 0; }
 
 /*# sourceMappingURL=video_player.css.map */
