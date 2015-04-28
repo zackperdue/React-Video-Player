@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="public/css/icons.css"></style>
+  <link rel="stylesheet" href="public/css/video_player.css"></style>
+</head>
+<body>
+  <div id="video_element"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
+  <script src="public/build/video_player.js"></script>
+  <script>
+    var options = {
+      highQuality: 'http://videos.thisisepic.com/88bce6ad-a343-4fb0-8df1-66471545ae96/high.mp4',
+      lowQuality: 'low definition',
+      initialQuality: 'highQuality',
+      poster: 'http://thumbnails.thisisepic.com/88bce6ad-a343-4fb0-8df1-66471545ae96/large/frame_0001.png'
+    }
+    var videoElement = document.getElementById('video_element')
+    React.render(React.createElement(VideoPlayer, {options: options}), videoElement)
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+.video_player {
+  background-color: #1d1d1d;
+  position: relative;
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  text-align: center; }
+  .video_player video {
+    max-width: 100%;
+    height: inherit; }
+  .video_player .control_bar {
+    background-color: rgba(0, 0, 0, 0.75);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    text-align: left; }
+    .video_player .control_bar button {
+      background: transparent;
+      color: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      height: 30px;
+      min-width: 30px;
+      display: inline-block;
+      font-size: 1em; }
+      .video_player .control_bar button i {
+        vertical-align: middle; }
+  .video_player .progress_bar {
+    height: 10px;
+    background: #333;
+    width: 100%;
+    border-radius: 5px; }
+    .video_player .progress_bar .played {
+      height: inherit;
+      width: 50%;
+      background-color: #cc00ff;
+      border-radius: inherit; }
+
+/*# sourceMappingURL=video_player.css.map */
