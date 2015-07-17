@@ -173,7 +173,17 @@ body :-webkit-full-screen {
         width: 0%;
         background-color: #c0f;
         z-index: 50;
+        span {
+          width:10px;
+          height:10px;
+          position:absolute;
+          right:0;
+          top:-2px;
+          border-radius:50%;
+          background-color:#c0f;
+	  }
       }
+      
       .buffer_percent{
         top: 0; bottom: 0;
         position: absolute;
