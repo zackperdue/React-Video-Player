@@ -91,8 +91,8 @@ var VideoProgressBar = React.createClass({
     var playedStyle = {width: this.props.percentPlayed + '%'}
     var bufferStyle = {width: this.props.percentBuffered + '%'}
     return (
-      <div className="progress_bar">
-        <div className="playback_percent" style={playedStyle}></div>
+      <div className="progress_bar progress_bar_ref" onClick={this.props.handleProgressClick}>
+        <div className="playback_percent" style={playedStyle}><span></span></div>
         <div className="buffer_percent" style={bufferStyle}></div>
       </div>
     );
@@ -123,7 +123,11 @@ var Video = React.createClass({
     }, false);
 
     var bufferCheck = setInterval(function(){
-      var percent = (video.buffered.end(0) / video.duration * 100)
+	  try{
+        var percent = (video.buffered.end(0) / video.duration * 100)
+	  } catch(ex){
+	    percent = 0;
+	  }
       $this.updateBuffer(percent);
       if (percent == 100) { clearInterval(bufferCheck); }
     }, 500);
@@ -202,9 +206,32 @@ var VideoPlayer = React.createClass({
       fullScreen: !this.state.fullScreen
     }, function(){
       if (this.state.fullScreen){
-        this.getDOMNode().webkitRequestFullScreen();
+		  var docElm = document.documentElement;
+		  if(docElm.requestFullscreen){
+			this.getDOMNode().requestFullscreen();
+		  }		  
+		  if(docElm.webkitRequestFullScreen){
+			this.getDOMNode().webkitRequestFullScreen();
+		  }
+		  if(docElm.mozRequestFullScreen){
+			this.getDOMNode().mozRequestFullScreen();
+		  }
+		  if(docElm.msRequestFullscreen){
+			this.getDOMNode().msRequestFullscreen();
+		  }
       }else{
-        document.webkitExitFullscreen();
+          if(document.exitFullscreen){
+			document.exitFullscreen();
+		  }
+		  if(document.mozCancelFullScreen){
+			document.mozCancelFullScreen();
+		  }
+		  if(document.webkitCancelFullScreen){
+			document.webkitCancelFullScreen();
+		  }
+		  if(document.msExitFullscreen){
+			document.msExitFullscreen();
+		  }
       }
     });
   },
@@ -212,6 +239,17 @@ var VideoPlayer = React.createClass({
     this.setState({volumeLevel: value / 100}, function(){
       this.refs.video.getDOMNode().volume = this.state.volumeLevel;
     });
+  },
+  seekVideo: function(evt){
+	var progress_barElm = evt.target;
+	if(progress_barElm.className != 'progress_bar_ref'){
+	  progress_barElm = evt.target.parentElement;
+	};
+	var progBarDims = progress_barElm.getBoundingClientRect();
+	var clickPos = evt.clientX - progBarDims.left + 5;	// 5 correction factor
+	var ratio = (progBarDims.width < this.state.duration) ? (progBarDims.width / this.state.duration) : (this.state.duration / progBarDims.width);
+	var seekPos = (clickPos * ratio);
+	this.refs.video.getDOMNode().currentTime = seekPos;
   },
   render: function(){
     return (
@@ -225,7 +263,7 @@ var VideoPlayer = React.createClass({
                updatePlaybackStatus={this.videoEnded}
                bufferChanged={this.updateBufferBar} />
         <div className="video_controls" ref="videoControls">
-          <VideoProgressBar percentPlayed={this.state.percentPlayed} percentBuffered={this.state.percentBuffered} />
+          <VideoProgressBar handleProgressClick={this.seekVideo} percentPlayed={this.state.percentPlayed} percentBuffered={this.state.percentBuffered} />
           <VideoPlaybackToggleButton handleTogglePlayback={this.togglePlayback} playing={this.state.playing} />
           <VideoVolumeButton muted={this.state.muted} volumeLevel={this.state.volumeLevel} toggleVolume={this.toggleMute} changeVolume={this.handleVolumeChange} />
           <VideoTimeIndicator duration={this.state.duration} currentTime={this.state.currentTime} />
